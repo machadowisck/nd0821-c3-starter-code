@@ -33,7 +33,7 @@ X_train, y_train, encoder, lb = process_data(
 )
 
 # Proces the test data with the process_data function.
-X_test, y_test, encoder, lb = process_data(
+X_test, y_test, _, _ = process_data(
     test, categorical_features=cat_features, label="salary", training=False,
     encoder=encoder, lb=lb
 )
@@ -48,3 +48,10 @@ pickle.dump(encoder, open(encoder_path, 'wb'))
 
 lb_path = os.path.join(file_dir, '../model/lb.pkl')
 pickle.dump(lb, open(lb_path, 'wb'))
+
+
+preds = inference(rf_model, X_test)
+
+print('precision: {}, recall: {}, fbeta: {}'.format(
+    *compute_model_metrics(y_test, preds)
+))

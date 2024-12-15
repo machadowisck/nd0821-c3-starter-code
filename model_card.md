@@ -21,9 +21,9 @@ The original dataset was first preprocessed and then split into training(80%) an
 
 The model performance is as follows:
 
-    - precision: 0.748
+    - precision: 0.738
     - recall: 0.623
-    - f1: 0.679
+    - f1: 0.675
 
 
 ## Ethical Considerations

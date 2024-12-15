@@ -28,7 +28,10 @@ def performance(model, data, slice_feature, categorical_features=[]):
     -------
     None
     """
+    logger.info('#######################################')
     logger.info('## {} feature performance'.format(slice_feature))
+    logger.info('#######################################')
+
 
     X, y, _, _ = process_data(
         data, categorical_features=categorical_features, label="salary", training=True
@@ -38,15 +41,19 @@ def performance(model, data, slice_feature, categorical_features=[]):
     for value in data[slice_feature].unique():
        slice_index = data.index[data[slice_feature] == value]
        
-       logger.info(slice_feature, '=', value)
-       logger.info('data size:', len(slice_index))
+       logger.info("{} = {}".format(slice_feature, str(value)))
+       logger.info('data size:{}'.format(  str(len(slice_index))  ) )
        logger.info('precision: {}, recall: {}, fbeta: {}'.format(*compute_model_metrics(y[slice_index], preds[slice_index])))
+       logger.info('---------------------------------------')
+       
+
+
 
 
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO,
-                        format="%(asctime)-15s %(message)s",
+                        format=" %(message)s",
                         filename='slice_output.txt')
     logger = logging.getLogger()
 
