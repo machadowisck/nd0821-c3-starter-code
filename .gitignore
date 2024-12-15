@@ -2,3 +2,4 @@
 *.pgp
 *.zip
 __pycache__
+aws*/
