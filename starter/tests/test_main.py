@@ -2,13 +2,15 @@ import json
 from fastapi.testclient import TestClient
 from main import app
 
-import sys
-sys.path.insert(0, 'starter')
+# import sys
+# sys.path.insert(0, 'starter')
+
 
 def test_get_root():
     r = TestClient(app).get("/")
     assert r.status_code == 200
     assert r.json() == "Welcome to the Census income class predictor API!"
+
 
 def test_post():
     data = {
@@ -51,4 +53,4 @@ def test_post2():
     }
     r = TestClient(app).post("/", data=json.dumps(data))
     assert r.status_code == 200
-    assert r.json() == ">50K"    
+    assert r.json() == ">50K"

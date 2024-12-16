@@ -4,13 +4,9 @@ import os
 import pickle
 import pandas as pd
 from fastapi import FastAPI
-from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel, Field
 from starter.ml.data import process_data
 from starter.ml.model import inference
-from enum import Enum
-from typing import List
-
 
 
 app = FastAPI()
@@ -21,6 +17,7 @@ lb_path = os.path.join(file_dir, 'model/lb.pkl')
 model = pickle.load(open(model_path, 'rb'))
 encoder = pickle.load(open(encoder_path, 'rb'))
 lb = pickle.load(open(lb_path, 'rb'))
+
 
 class Census(BaseModel):
     # Using the first row of census.csv as sample
@@ -39,14 +36,14 @@ class Census(BaseModel):
     hours_per_week: int = Field(None, alias='hours-per-week', example=40)
     native_country: str = Field(None, alias='native-country', example='Peru')
 
+
 @app.get("/")
 async def home_page():
     return "Welcome to the Census income class predictor API!"
-    
-    
+
+
 @app.post("/")
 async def predict(person: Census):
-    
     data = pd.DataFrame.from_dict(person)
     cat_features = [
         "workclass",

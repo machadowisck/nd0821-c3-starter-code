@@ -21,7 +21,6 @@ def test_train_model():
     assert isinstance(model, BaseEstimator) and isinstance(model, ClassifierMixin)
 
 
-
 def test_compute_model_metrics():
     """
     Tests the trained machine learning model using precision, recall, and F1.
@@ -38,8 +37,9 @@ def test_compute_model_metrics():
     # precision = 1.0, recall = 0.5, fbeta = 0.6667
     assert abs(precision - 1) < 0.01 and abs(recall - 0.5) < 0.01 and abs(fbeta - 0.67) < 0.01
 
+
 def test_inference(model, X):
-    """ 
+    """
     Tests model inferences and return the predictions.
 
     return  model.predict(X)
@@ -52,8 +52,8 @@ def test_inference(model, X):
     assert y.shape == pred.shape
 
 
-
-'''cat_features = [
+'''
+cat_features = [
     "workclass",
     "education",
     "marital-status",

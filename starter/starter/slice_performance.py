@@ -1,10 +1,10 @@
-import sys
 import os
 import pickle
 import pandas as pd
 from ml.data import process_data
 from ml.model import compute_model_metrics, inference
-import logging 
+import logging
+
 
 def performance(model, data, slice_feature, categorical_features=[]):
     """
@@ -32,23 +32,18 @@ def performance(model, data, slice_feature, categorical_features=[]):
     logger.info('## {} feature performance'.format(slice_feature))
     logger.info('#######################################')
 
-
     X, y, _, _ = process_data(
         data, categorical_features=categorical_features, label="salary", training=True
         )
     preds = inference(model, X)
 
     for value in data[slice_feature].unique():
-       slice_index = data.index[data[slice_feature] == value]
-       
-       logger.info("{} = {}".format(slice_feature, str(value)))
-       logger.info('data size:{}'.format(  str(len(slice_index))  ) )
-       logger.info('precision: {}, recall: {}, fbeta: {}'.format(*compute_model_metrics(y[slice_index], preds[slice_index])))
-       logger.info('---------------------------------------')
-       
+        slice_index = data.index[data[slice_feature] == value]
 
-
-
+        logger.info("{} = {}".format(slice_feature, str(value)))
+        logger.info('data size:{}'.format(str(len(slice_index))))
+        logger.info('precision: {}, recall: {}, fbeta: {}'.format(*compute_model_metrics(y[slice_index], preds[slice_index])))
+        logger.info('---------------------------------------')
 
 
 if __name__ == '__main__':
@@ -56,7 +51,6 @@ if __name__ == '__main__':
                         format=" %(message)s",
                         filename='slice_output.txt')
     logger = logging.getLogger()
-
 
     cat_features = [
         "workclass",
@@ -74,6 +68,5 @@ if __name__ == '__main__':
     model_path = os.path.join(file_dir, '../model/rf_model.pkl')
     model = pickle.load(open(model_path, 'rb'))
 
-    
     for category in cat_features:
         performance(model, data, category, categorical_features=cat_features)
