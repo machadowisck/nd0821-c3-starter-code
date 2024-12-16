@@ -1,7 +1,9 @@
 # Script to test machine learning model.
 
 # Add the necessary imports for the starter code.
-from .model import train_model, inference, compute_model_metrics
+from starter.starter.ml.model import (train_model,
+                                      inference,
+                                      compute_model_metrics)
 import numpy as np
 from sklearn.base import BaseEstimator, ClassifierMixin
 
@@ -39,7 +41,7 @@ def test_compute_model_metrics():
     assert abs(precision - 1) < 0.01 and abs(recall - 0.5) < 0.01 and abs(fbeta - 0.67) < 0.01
 
 
-def test_inference(model, X):
+def test_inference():
     """
     Tests model inferences and return the predictions.
 

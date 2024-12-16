@@ -15,7 +15,8 @@ file_dir = os.path.dirname(__file__)
 sys.path.insert(0, file_dir)
 data = pd.read_csv(os.path.join(file_dir, '../data/clean_census.csv'))
 
-# Optional enhancement, use K-fold cross validation instead of a train-test split.
+# Optional enhancement, use K-fold cross validation
+# instead of a train-test split.
 train, test = train_test_split(data, test_size=0.20)
 
 cat_features = [
