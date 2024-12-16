@@ -1,8 +1,8 @@
-python==3.12
+python
 numpy
 pandas
 pydantic
-scikit-learn==1.0.2
+scikit-learn
 pytest
 requests
 fastapi==0.63.0
