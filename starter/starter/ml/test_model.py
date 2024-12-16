@@ -6,6 +6,7 @@ from starter.starter.ml.model import (train_model,
                                       compute_model_metrics)
 import numpy as np
 from sklearn.base import BaseEstimator, ClassifierMixin
+from sklearn.ensemble import RandomForestClassifier
 
 
 def test_train_model():
@@ -47,9 +48,10 @@ def test_inference():
 
     return  model.predict(X)
     """
-    X = np.random.rand(10, 5)
-    y = np.random.randint(2, size=1)
-    model = train_model(X, y)
-    pred = inference(model, X)
-    # Check if pred and y shapes are equal
-    assert y.shape == pred.shape
+    X_train = [[0, 0], [0, 1], [1, 0], [1, 1]]
+    y_train = [0, 1, 1, 0]
+    clf = RandomForestClassifier()
+    clf.fit(X_train, y_train)
+
+    result = inference(clf, [[0, 0], [0, 1]])
+    assert list(result) == [0, 1]
