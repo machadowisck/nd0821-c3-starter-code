@@ -2,6 +2,17 @@ import numpy as np
 import pandas as pd
 from sklearn.preprocessing import LabelBinarizer, OneHotEncoder
 
+# Function to convert numeric columns to float
+def convert_numeric_columns_to_float(arr):
+    for col in range(arr.shape[1]):  # Iterate over each column
+        try:
+            # Attempt to convert the entire column to float
+            arr[:, col] = arr[:, col].astype(float)
+        except ValueError:
+            # Skip non-numeric columns
+            pass
+    return arr
+
 
 def process_data(X,
                  categorical_features=[],
@@ -58,8 +69,9 @@ def process_data(X,
     X_categorical = X[categorical_features].values
 
     X_continuous = X.drop(*[categorical_features], axis=1)
-    for col in X_continuous.select_dtypes(include=['number', 'object']).columns:
-        X_continuous[col] = pd.to_numeric(X_continuous[col], errors='coerce')
+    # for col in X_continuous.select_dtypes(include=['number', 'object']).columns:
+    #     X_continuous[col] = pd.to_numeric(X_continuous[col], errors='coerce')
+    X_continuous = convert_numeric_columns_to_float(X_continuous)
 
     if training is True:
         encoder = OneHotEncoder(sparse_output=False, handle_unknown="ignore")
