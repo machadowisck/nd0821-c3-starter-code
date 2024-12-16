@@ -53,37 +53,3 @@ def test_inference():
     pred = inference(model, X)
     # Check if pred and y shapes are equal
     assert y.shape == pred.shape
-
-
-'''
-cat_features = [
-    "workclass",
-    "education",
-    "marital-status",
-    "occupation",
-    "relationship",
-    "race",
-    "sex",
-    "native-country",
-]
-X_train, y_train, encoder, lb = process_data(
-    train, categorical_features=cat_features, label="salary", training=True
-)
-
-# Proces the test data with the process_data function.
-X_test, y_test, encoder, lb = process_data(
-    test, categorical_features=cat_features, label="salary", training=False,
-    encoder=encoder, lb=lb
-)
-# Train and save a model.
-rf_model = train_model(X_train, y_train)
-
-model_path = os.path.join(file_dir, '../model/rf_model.pkl')
-pickle.dump(rf_model, open(model_path, 'wb'))
-
-encoder_path = os.path.join(file_dir, '../model/encoder.pkl')
-pickle.dump(encoder, open(encoder_path, 'wb'))
-
-lb_path = os.path.join(file_dir, '../model/lb.pkl')
-pickle.dump(lb, open(lb_path, 'wb'))
-'''
