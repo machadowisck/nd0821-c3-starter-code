@@ -56,7 +56,8 @@ async def home_page():
 
 @app.post("/")
 async def predict(data: Census):
-    print('data size: {}'.format(data.shape))
+    data_shape = pd.DataFrame.from_dict(data.__dict__)
+    print('data size: {}'.format(data_shape.shape))
     data = {key.replace('_', '-'): [value] for key, value in data.__dict__.items()}
     data = pd.DataFrame.from_dict(data)
     print('data size: {}'.format(data.shape))
