@@ -6,10 +6,18 @@ from sklearn.preprocessing import LabelBinarizer, OneHotEncoder
 def convert_numeric_columns_to_float(arr):
     for col in range(arr.shape[1]):  # Iterate over each column
         try:
-            # Attempt to convert the entire column to float
-            arr[:, col] = arr[:, col].astype(float)
+            # Attempt to convert the entire column to int
+            arr[:, col] = arr[:, col].astype(int)
         except ValueError:
             # Skip non-numeric columns
+            pass
+        except pd.errors.InvalidIndexError:
+            # Skip non-numeric columns
+            pass
+        try:
+            for col in arr.columns:
+                arr[col] = pd.to_numeric(arr[col], errors='coerce')
+        except:
             pass
     return arr
 
