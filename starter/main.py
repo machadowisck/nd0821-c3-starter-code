@@ -26,7 +26,9 @@ class Census(BaseModel):
     fnlgt: int = Field(None, example=88516)
     education: str = Field(None, example='Bachelors')
     education_num: int = Field(None, alias='education-num', example=13)
-    marital_status: str = Field(None, alias='marital-status', example='Never-married')
+    marital_status: str = Field(None,
+                                alias='marital-status',
+                                example='Never-married')
     occupation: str = Field(None, example='Adm-clerical')
     relationship: str = Field(None, example='Not-in-family')
     race: str = Field(None, example='Black')

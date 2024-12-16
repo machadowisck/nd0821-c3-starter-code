@@ -18,7 +18,8 @@ def test_train_model():
     y = np.random.randint(2, size=10)
     model = train_model(X, y)
     # Check that this is a classification model
-    assert isinstance(model, BaseEstimator) and isinstance(model, ClassifierMixin)
+    assert isinstance(model, BaseEstimator) and isinstance(model,
+                                                           ClassifierMixin)
 
 
 def test_compute_model_metrics():
