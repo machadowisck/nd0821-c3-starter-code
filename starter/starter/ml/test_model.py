@@ -1,7 +1,7 @@
 # Script to test machine learning model.
 
 # Add the necessary imports for the starter code.
-from model import train_model, inference, compute_model_metrics
+from .model import train_model, inference, compute_model_metrics
 import numpy as np
 from sklearn.base import BaseEstimator, ClassifierMixin
 
