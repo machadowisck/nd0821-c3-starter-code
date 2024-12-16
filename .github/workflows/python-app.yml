@@ -36,8 +36,18 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest
       run: |
-        python -m pytest starter/starter/ml/test_model.py 
+        python -m pytest starter/starter/ml/
         python starter/requests_call.py    
+  deploy:
+
+    runs-on: ubuntu-latest
+      
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.11"
     - name: Deploy on Render
       # Only run this step if the branch is main
       # https://render.com/docs/deploy-hooks#example-workflow
@@ -48,4 +58,5 @@ jobs:
         curl "$deploy_url"
     - name: Test with pytest on RENDER
       run: |
-        python -m pytest starter/starter/ml/starter/test_main.py 
+        sleep 50
+        python -m pytest starter/ 
