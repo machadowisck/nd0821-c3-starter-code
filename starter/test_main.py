@@ -1,4 +1,4 @@
-import json
+# import json
 from fastapi.testclient import TestClient
 from .main import app
 
@@ -13,7 +13,7 @@ def test_get_root():
 
 
 def test_post():
-    data = {
+    data = [{
         'age': 39,
         'workclass': 'State-gov',
         'fnlgt': 77516,
@@ -28,8 +28,8 @@ def test_post():
         'capital-loss': 0,
         'hours-per-week': 40,
         'native-country': 'United-States'
-    }
-    r = TestClient(app).post("/", data=json.dumps(data))
+    }]
+    r = TestClient(app).post("/", json=data)
     assert r.status_code == 200
     assert r.json() == "<=50K"
 
@@ -51,6 +51,6 @@ def test_post2():
         'hours-per-week': 40,
         'native-country': 'United-States'
     }
-    r = TestClient(app).post("/", data=json.dumps(data))
+    r = TestClient(app).post("/", json=data)
     assert r.status_code == 200
     assert r.json() == ">50K"
