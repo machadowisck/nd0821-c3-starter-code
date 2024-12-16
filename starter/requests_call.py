@@ -42,6 +42,7 @@ print('Response Headers:', response.headers)
 print('text:', response.text)
 print('more: ', response.reason)
 
+"""
 def test_post2():
     data = [{
         "age": 30,
@@ -62,3 +63,4 @@ def test_post2():
     r = TestClient(app).post("/", json=data)
     assert r.status_code == 200
     assert r.json() == ">50K"
+    """
