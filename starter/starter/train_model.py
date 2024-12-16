@@ -36,12 +36,6 @@ X_train, y_train, encoder, lb = process_data(
 
 # Train and save a model.
 rf_model = train_model(X_train, y_train)
-rf_model = {
-        "classifier": rf_model,
-        "encoder": encoder,
-        "lb": lb,
-        "cat_features": cat_features
-}
 
 model_path = os.path.join(file_dir, '../model/rf_model.pkl')
 pickle.dump(rf_model, open(model_path, 'wb'))
