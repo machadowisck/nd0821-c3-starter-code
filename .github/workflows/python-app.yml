@@ -36,7 +36,8 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest
       run: |
-        python -m pytest .
+        python -m pytest starter/starter/ml/test_model.py 
+        python starter/requests_call.py
     
     - name: Deploy on Render
       # Only run this step if the branch is main
@@ -46,3 +47,7 @@ jobs:
         deploy_url: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
       run: |
         curl "$deploy_url"
+      
+      - name: Test with pytest on RENDER
+        run: |
+          python -m pytest starter/starter/ml/starter/test_main.py 
