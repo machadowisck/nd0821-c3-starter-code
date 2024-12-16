@@ -47,8 +47,8 @@ def test_inference():
 
     return  model.predict(X)
     """
-    X = np.random.rand(100, 5)
-    y = np.random.randint(2, size=100)
+    X = np.random.rand(10, 5)
+    y = np.random.randint(2, size=1)
     model = train_model(X, y)
     pred = inference(model, X)
     # Check if pred and y shapes are equal
