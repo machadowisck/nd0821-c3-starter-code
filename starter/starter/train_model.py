@@ -3,7 +3,7 @@
 from sklearn.model_selection import train_test_split
 
 # Add the necessary imports for the starter code.
-from ml.data import process_data
+from ml.data import process_data, convert_numeric_columns
 from ml.model import train_model, inference, compute_model_metrics
 import os
 import sys
@@ -34,13 +34,14 @@ X_train, y_train, encoder, lb = process_data(
     train, categorical_features=cat_features, label="salary", training=True
 )
 
-# Proces the test data with the process_data function.
-X_test, y_test, _, _ = process_data(
-    test, categorical_features=cat_features, label="salary", training=False,
-    encoder=encoder, lb=lb
-)
 # Train and save a model.
 rf_model = train_model(X_train, y_train)
+rf_model = {
+        "classifier": rf_model,
+        "encoder": encoder,
+        "lb": lb,
+        "cat_features": cat_features
+}
 
 model_path = os.path.join(file_dir, '../model/rf_model.pkl')
 pickle.dump(rf_model, open(model_path, 'wb'))
@@ -52,6 +53,11 @@ lb_path = os.path.join(file_dir, '../model/lb.pkl')
 pickle.dump(lb, open(lb_path, 'wb'))
 
 
+# Proces the test data with the process_data function.
+X_test, y_test, _, _ = process_data(
+    test, categorical_features=cat_features, label="salary", training=False,
+    encoder=encoder, lb=lb
+)
 preds = inference(rf_model, X_test)
 
 print('precision: {}, recall: {}, fbeta: {}'.format(

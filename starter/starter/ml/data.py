@@ -3,7 +3,7 @@ import pandas as pd
 from sklearn.preprocessing import LabelBinarizer, OneHotEncoder
 
 # Function to convert numeric columns to float
-def convert_numeric_columns_to_float(arr):
+def convert_numeric_columns(arr):
     for col in arr.columns:
         try:
             arr[col] = pd.to_numeric(arr[col], errors='coerce')
@@ -82,7 +82,7 @@ def process_data(X,
     X_continuous = X.drop(*[categorical_features], axis=1)
     # for col in X_continuous.select_dtypes(include=['number', 'object']).columns:
     #     X_continuous[col] = pd.to_numeric(X_continuous[col], errors='coerce')
-    # X_continuous = convert_numeric_columns_to_float(X_continuous)
+    X_continuous = convert_numeric_columns(X_continuous)
 
     if training is True:
         encoder = OneHotEncoder(sparse_output=False, handle_unknown="ignore")
