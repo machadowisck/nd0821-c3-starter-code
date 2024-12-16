@@ -4,7 +4,12 @@ from sklearn.preprocessing import LabelBinarizer, OneHotEncoder
 
 # Function to convert numeric columns to float
 def convert_numeric_columns_to_float(arr):
-    for col in range(arr.shape[1]):  # Iterate over each column
+    for col in arr.columns:
+        try:
+            arr[col] = pd.to_numeric(arr[col], errors='coerce')
+        except:
+            pass
+    '''for col in range(arr.shape[1]):  # Iterate over each column
         try:
             # Attempt to convert the entire column to int
             arr[:, col] = arr[:, col].astype(int)
@@ -12,13 +17,11 @@ def convert_numeric_columns_to_float(arr):
             # Skip non-numeric columns
             pass
         except pd.errors.InvalidIndexError:
-            # Skip non-numeric columns
-            pass
-        try:
-            for col in arr.columns:
-                arr[col] = pd.to_numeric(arr[col], errors='coerce')
-        except:
-            pass
+            # Skip non-numeric columns            
+            try:
+                
+            except:
+                pass'''
     return arr
 
 
