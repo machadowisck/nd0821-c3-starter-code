@@ -33,8 +33,8 @@ def test_compute_model_metrics():
     recall = recall_score(y, preds, zero_division=1)
     return precision, recall, fbeta
     """
-    y = [1, 1, 0, 1, 1, 0]
-    preds = [0, 1, 0, 0, 1, 0]
+    y = [1, 1, 0]
+    preds = [0, 1, 0]
     precision, recall, fbeta = compute_model_metrics(y, preds)
     # Assert that the metrics are close to the expected value:
     # precision = 1.0, recall = 0.5, fbeta = 0.6667

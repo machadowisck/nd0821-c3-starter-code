@@ -4,7 +4,7 @@ import os
 import pickle
 import pandas as pd
 from fastapi import FastAPI
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 from starter.starter.ml.data import process_data
 from starter.starter.ml.model import inference
 
@@ -19,24 +19,29 @@ encoder = pickle.load(open(encoder_path, 'rb'))
 lb = pickle.load(open(lb_path, 'rb'))
 
 
+def field_alias(string: str):
+    return string.replace('_', '-')
+
+
 class Census(BaseModel):
     # Using the first row of census.csv as sample
     age: int = Field(None, example=40)
     workclass: str = Field(None, example='State-gov')
     fnlgt: int = Field(None, example=88516)
     education: str = Field(None, example='Bachelors')
-    education_num: int = Field(None, alias='education-num', example=13)
+    education_num: int = Field(None, alias='education_num', example=13)
     marital_status: str = Field(None,
-                                alias='marital-status',
+                                alias='marital_status',
                                 example='Never-married')
     occupation: str = Field(None, example='Adm-clerical')
     relationship: str = Field(None, example='Not-in-family')
     race: str = Field(None, example='Black')
     sex: str = Field(None, example='Female')
-    capital_gain: int = Field(None, alias='capital-gain', example=2174)
-    capital_loss: int = Field(None, alias='capital-loss', example=0)
-    hours_per_week: int = Field(None, alias='hours-per-week', example=40)
-    native_country: str = Field(None, alias='native-country', example='Peru')
+    capital_gain: int = Field(None, alias='capital_gain', example=2174)
+    capital_loss: int = Field(None, alias='capital_loss', example=0)
+    hours_per_week: int = Field(None, alias='hours_per_week', example=40)
+    native_country: str = Field(None, alias='native_country', example='Peru')
+    model_config = ConfigDict(alias_generator=field_alias)  # allow_population_by_field_name=True
 
 
 @app.get("/")
