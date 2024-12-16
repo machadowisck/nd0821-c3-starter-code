@@ -31,7 +31,8 @@ def test_post():
         "native_country": "United-States"
     }]
     """
-    data = {"age": 39,
+    data = {
+        "age": 39,
         "workclass": "State-gov",
         "fnlgt": 77516,
         "education": "Bachelors",
@@ -70,7 +71,7 @@ def test_post2():
         "native_country": "India"
     }]
     '''
-    data = [{
+    data = {
         "age": 30,
         "workclass": "State-gov",
         "fnlgt": 141297,
@@ -85,7 +86,7 @@ def test_post2():
         "capital_loss": 0,
         "hours_per_week": 40,
         "native_country": "India"
-    }]
+    }
     r = TestClient(app).post("/", json=data)
     assert r.status_code == 200
     assert r.json() == ">50K"

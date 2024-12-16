@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 from sklearn.preprocessing import LabelBinarizer, OneHotEncoder
 
 
@@ -53,8 +54,12 @@ def process_data(X,
     else:
         y = np.array([])
 
+    # (np.array(list(loss.values())).astype(float)
     X_categorical = X[categorical_features].values
+
     X_continuous = X.drop(*[categorical_features], axis=1)
+    for col in X_continuous.select_dtypes(include=['number', 'object']).columns:
+        X_continuous[col] = pd.to_numeric(X_continuous[col], errors='coerce')
 
     if training is True:
         encoder = OneHotEncoder(sparse_output=False, handle_unknown="ignore")
