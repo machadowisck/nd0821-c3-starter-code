@@ -2,7 +2,7 @@ import requests
 import json
 
 url = 'https://nd0821-c3-machado.onrender.com/'
-census = [{
+census = {
     'age': 39,
     'workclass': 'State-gov',
     'fnlgt': 77516,
@@ -17,9 +17,9 @@ census = [{
     'capital-loss': 0,
     'hours-per-week': 40,
     'native-country': 'United-States'
-    }]
+    }
 
-response = requests.post(url, data=json.dumps(census[0]))
+response = requests.post(url, data=json.dumps(census))
 
 print('status code:', response.status_code)
 print('salary:', response.json())
