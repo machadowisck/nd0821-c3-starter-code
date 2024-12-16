@@ -11,7 +11,7 @@ WARN_COLOR = '\033[93m'
 
 
 def run_sanity_check(test_dir):
-    #assert path.isdir(test_dir), FAIL_COLOR+f"No direcotry named {test_dir} found in {os.getcwd()}"
+    # assert path.isdir(test_dir), FAIL_COLOR+f"No direcotry named {test_dir} found in {os.getcwd()}"
     print('This script will perform a sanity test to ensure your code meets the criteria in the rubric.\n')
     print('Please enter the path to the file that contains your test cases for the GET() and POST() methods')
     print('The path should be something like abc/def/test_xyz.py')
@@ -61,7 +61,7 @@ def run_sanity_check(test_dir):
             WARNING_COUNT += 1
             print(FAIL_COLOR+"Your test case for GET() does not seem to be testing the CONTENTS of the response.\n")
 
-    # POST() 
+    # POST()
     TEST_FOR_POST_METHOD_RESPONSE_CODE = False
     TEST_FOR_POST_METHOD_RESPONSE_BODY = False
     COUNT_POST_METHOD_TEST_FOR_INFERENCE_RESULT = 0
@@ -83,11 +83,11 @@ def run_sanity_check(test_dir):
             SANITY_TEST_PASSING = False
 
         for func in test_functions_for_post:
-            source = inspect.getsource(getattr(module,func))
+            source = inspect.getsource(getattr(module, func))
             if source.find('.status_code') != -1:
                 TEST_FOR_POST_METHOD_RESPONSE_CODE = True
             if (source.find('.json') != -1) or (source.find('json.loads') != -1):
-                TEST_FOR_POST_METHOD_RESPONSE_BODY =  True
+                TEST_FOR_POST_METHOD_RESPONSE_BODY = True
                 COUNT_POST_METHOD_TEST_FOR_INFERENCE_RESULT += 1
 
         if not TEST_FOR_POST_METHOD_RESPONSE_CODE:
