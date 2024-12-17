@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 from sklearn.preprocessing import LabelBinarizer, OneHotEncoder
 
+
 # Function to convert numeric columns to float
 def convert_numeric_columns(arr):
     for col in arr.columns:
@@ -17,9 +18,9 @@ def convert_numeric_columns(arr):
             # Skip non-numeric columns
             pass
         except pd.errors.InvalidIndexError:
-            # Skip non-numeric columns            
+            # Skip non-numeric columns
             try:
-                
+
             except:
                 pass'''
     return arr

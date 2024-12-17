@@ -1,9 +1,8 @@
 # Script to train machine learning model.
-
 from sklearn.model_selection import train_test_split, StratifiedKFold
 
 # Add the necessary imports for the starter code.
-from ml.data import process_data, convert_numeric_columns
+from ml.data import process_data  # , convert_numeric_columns
 from ml.model import train_model, inference, compute_model_metrics
 import os
 import sys

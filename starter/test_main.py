@@ -23,7 +23,7 @@ def test_post_le():
         "occupation": "Adm-clerical",
         "relationship": "Not-in-family",
         "race": "White",
-        "sex": "Female",
+        "sex": "Male",
         "capital_gain": 2174,
         "capital_loss": 0,
         "hours_per_week": 40,
@@ -35,22 +35,23 @@ def test_post_le():
 
 
 def test_post_gt():
-    data = {
-        "age": 30,
-        "workclass": "State-gov",
-        "fnlgt": 141297,
-        "education": "Bachelors",
-        "education_num": 13,
+    # 52,Self-emp-not-inc,209642,HS-grad,9,Married-civ-spouse,Exec-managerial,Husband,White,Male,0,0,45,United-States,>50K
+    data = [{
+        "age": 52,
+        "workclass": "Self-emp-not-inc",
+        "fnlgt": 209642,
+        "education": "HS-grad",
+        "education_num": 9,
         "marital_status": "Married-civ-spouse",
-        "occupation": "Prof-specialty",
+        "occupation": "Exec-managerial",
         "relationship": "Husband",
-        "race": "Asian-Pac-Islander",
+        "race": "White",
         "sex": "Male",
         "capital_gain": 0,
         "capital_loss": 0,
-        "hours_per_week": 40,
-        "native_country": "India"
-    }
+        "hours_per_week": 45,
+        "native_country": "United-States"
+    }]
     r = TestClient(app).post("/", json=data)
     assert r.status_code == 200
     assert r.json() == ">50K"

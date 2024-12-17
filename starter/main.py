@@ -46,7 +46,7 @@ class Census(BaseModel):
     hours_per_week: int = Field(None, example=40)
     native_country: str = Field(None, example='Peru')
 
-    model_config = ConfigDict(alias_generator=field_title)
+    model_config = ConfigDict(alias_generator=field_title, populate_by_name=True)
 
 
 @app.get("/")
@@ -61,7 +61,6 @@ async def predict(data: Census):
     data = {key.replace('_', '-'): [value] for key, value in data.__dict__.items()}
     data = pd.DataFrame.from_dict(data)
     print('data size: {}'.format(data.shape))
-
 
     cat_features = [
         "workclass",
