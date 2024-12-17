@@ -1,6 +1,6 @@
 # Script to train machine learning model.
 
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, StratifiedKFold
 
 # Add the necessary imports for the starter code.
 from ml.data import process_data, convert_numeric_columns
@@ -8,6 +8,7 @@ from ml.model import train_model, inference, compute_model_metrics
 import os
 import sys
 import pandas as pd
+import numpy as np
 import pickle
 
 # Add code to load in the data.
@@ -30,12 +31,42 @@ cat_features = [
     "sex",
     "native-country",
 ]
-X_train, y_train, encoder, lb = process_data(
-    train, categorical_features=cat_features, label="salary", training=True
+# X_train, y_train, encoder, lb = process_data(
+X, y, encoder, lb = process_data(
+    # train, categorical_features=cat_features, label="salary", training=True
+    data, categorical_features=cat_features, label="salary", training=True
 )
 
+# Stratified K-Fold Cross-Validation
+kf = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
+
+fold_metrics = []
+for train_index, test_index in kf.split(X, y):
+    # Split data into training and testing folds
+    X_train_, X_test_ = X[train_index], X[test_index]
+    y_train_, y_test_ = y[train_index], y[test_index]
+
+    # Train the model
+    rf_model = train_model(X_train_, y_train_)
+
+    # Make predictions
+    y_pred = inference(rf_model, X_test_)
+
+    # Evaluate the model
+    precision, recall, fbeta = compute_model_metrics(y_test_, y_pred)
+    fold_metrics.append((precision, recall, fbeta))
+
+# Aggregate metrics
+fold_metrics = np.array(fold_metrics)
+mean_metrics = fold_metrics.mean(axis=0)
+
+print(f"Mean Precision: {mean_metrics[0]:.3f}")
+print(f"Mean Recall: {mean_metrics[1]:.3f}")
+print(f"Mean F-Beta: {mean_metrics[2]:.3f}")
+# ########################
+
 # Train and save a model.
-rf_model = train_model(X_train, y_train)
+# rf_model = train_model(X_train, y_train)
 
 model_path = os.path.join(file_dir, '../model/rf_model.pkl')
 pickle.dump(rf_model, open(model_path, 'wb'))
@@ -46,7 +77,7 @@ pickle.dump(encoder, open(encoder_path, 'wb'))
 lb_path = os.path.join(file_dir, '../model/lb.pkl')
 pickle.dump(lb, open(lb_path, 'wb'))
 
-
+"""
 # Proces the test data with the process_data function.
 X_test, y_test, _, _ = process_data(
     test, categorical_features=cat_features, label="salary", training=False,
@@ -57,3 +88,4 @@ preds = inference(rf_model, X_test)
 print('precision: {}, recall: {}, fbeta: {}'.format(
     *compute_model_metrics(y_test, preds)
 ))
+"""
