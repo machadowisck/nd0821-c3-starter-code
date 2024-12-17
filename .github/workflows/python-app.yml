@@ -34,11 +34,14 @@ jobs:
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+    - name: train_model
+      run: |
+          python starter/starter/train_model.py          
     - name: Test with pytest
       run: |
         python -m pytest starter/starter/ml/
-        python starter/requests_call.py    
   deploy:
+    needs: build
 
     runs-on: ubuntu-latest
       
@@ -56,9 +59,11 @@ jobs:
         deploy_url: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
       run: |
         curl "$deploy_url"
+    - name: SLEEP
+      run: |
         sleep 320
   remote_test:
-      
+          needs: deploy
           runs-on: ubuntu-latest
             
           steps:
@@ -73,5 +78,5 @@ jobs:
               if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
           - name: Test with pytest on RENDER
             run: |
-              sleep 320
               python -m pytest starter/ 
+              python starter/requests_call.py    
