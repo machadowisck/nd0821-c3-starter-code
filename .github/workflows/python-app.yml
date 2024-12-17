@@ -61,7 +61,7 @@ jobs:
         curl "$deploy_url"
     - name: SLEEP
       run: |
-        sleep 320
+        sleep 180
   remote_test:
           needs: deploy
           runs-on: ubuntu-latest
