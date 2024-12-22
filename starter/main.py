@@ -89,6 +89,8 @@ async def predict(data: Census, encoder=encoder, lb=lb):
         lb=lb
     )
     print("Inference features:", X.shape)
+    X = X[:, :108]
+    print("Inference features:", X.shape)
 
     pred = inference(model, X)[0]
     return '<=50K' if pred == 0 else '>50K'
