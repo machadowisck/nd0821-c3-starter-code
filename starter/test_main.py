@@ -40,19 +40,19 @@ def test_post_le():
 
 def test_post_gt():
     # 52,Self-emp-not-inc,209642,HS-grad,9,Married-civ-spouse,Exec-managerial,Husband,White,Male,0,0,45,United-States,>50K
-    data = {"age": 52,
-        "workclass": "Self-emp-not-inc",
-        "fnlgt": 209642,
-        "education": "HS-grad",
-        "education-num": 9,
-        "marital_status": "Married-civ-spouse",
-        "occupation": "Exec-managerial",
-        "relationship": "Husband",
+    data = {"age": 31,
+        "workclass": "Private",
+        "fnlgt": 45781,
+        "education": "Masters",
+        "education-num": 14,
+        "marital_status": "Never-married",
+        "occupation": "Prof-specialty",
+        "relationship": "Not-in-family",
         "race": "White",
-        "sex": "Male",
-        "capital-gain": 0,
+        "sex": "Female",
+        "capital-gain": 14100,
         "capital-loss": 0,
-        "hours-per-week": 45,
+        "hours-per-week": 50,
         "native_country": "United-States"}
     r = TestClient(app).post("/", json=data)
     print('status code:', r.status_code)
