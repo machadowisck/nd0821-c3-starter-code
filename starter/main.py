@@ -4,7 +4,9 @@ import os
 import pickle
 import pandas as pd
 from fastapi import FastAPI
+from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel, Field, ConfigDict
+
 # from pydantic.alias_generators import to_snake, to_pascal
 from starter.starter.ml.data import process_data
 from starter.starter.ml.model import inference
@@ -46,7 +48,8 @@ class Census(BaseModel):
     hours_per_week: int = Field(None, example=40)
     native_country: str = Field(None, example='Peru')
 
-    model_config = ConfigDict(alias_generator=field_title, populate_by_name=True)
+    model_config = ConfigDict(alias_generator=field_title,
+                              populate_by_name=True,)
 
 
 @app.get("/")
@@ -55,24 +58,29 @@ async def home_page():
 
 
 @app.post("/")
-async def predict(data: Census):
-    data_shape = pd.DataFrame.from_dict(data.__dict__)
-    print('data size: {}'.format(data_shape.shape))
-    data = {key.replace('_', '-'): [value] for key, value in data.__dict__.items()}
-    data = pd.DataFrame.from_dict(data)
-    print('data size: {}'.format(data.shape))
+async def predict(data: Census, encoder=encoder, lb=lb):
+    # data_shape = pd.DataFrame.from_dict(data.__dict__)
+    # print('data size: {}'.format(data_shape.shape))
+    # data = {key.replace('_', '-'): [value] for key, value in data.__dict__.items()}
+    # data = pd.DataFrame.from_dict(data.__dict__)
+    # print('data size: {}'.format(data.shape))
+
+    # data = pd.DataFrame(jsonable_encoder(data))
+    data = pd.DataFrame.from_dict(data.__dict__)
+    keys = data.columns
+    print("Inference feature Names:", keys)
 
     cat_features = [
         "workclass",
         "education",
-        "marital-status",
+        "marital_status",
         "occupation",
         "relationship",
         "race",
         "sex",
-        "native-country"
+        "native_country",
     ]
-    X, _, _, _ = process_data(
+    X, y, encoder, lb = process_data(
         data,
         categorical_features=cat_features,
         label=None,
@@ -80,5 +88,7 @@ async def predict(data: Census):
         encoder=encoder,
         lb=lb
     )
+    print("Inference features:", X.shape)
+
     pred = inference(model, X)[0]
     return '<=50K' if pred == 0 else '>50K'

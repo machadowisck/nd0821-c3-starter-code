@@ -1,7 +1,7 @@
 import requests
 import json
 
-url = 'https://nd0821-c3-machado.onrender.com/'
+url = 'http://127.0.0.1:8000'
 census = {"age": 30,
           "workclass": "State-gov",
           "fnlgt": 141297,

@@ -15,10 +15,12 @@ file_dir = os.path.dirname(__file__)
 sys.path.insert(0, file_dir)
 data = pd.read_csv(os.path.join(file_dir, '../data/clean_census.csv'))
 
+keys = data.columns
+print("Training feature Names:", keys)
 
 # Optional enhancement, use K-fold cross validation
 # instead of a train-test split.
-train, test = train_test_split(data, test_size=0.20)
+# train, test = train_test_split(data, test_size=0.20)
 
 cat_features = [
     "workclass",
@@ -32,9 +34,10 @@ cat_features = [
 ]
 # X_train, y_train, encoder, lb = process_data(
 X, y, encoder, lb = process_data(
-    # train, categorical_features=cat_features, label="salary", training=True
     data, categorical_features=cat_features, label="salary", training=True
 )
+print("Training features:", X.shape)
+
 
 # Stratified K-Fold Cross-Validation
 kf = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
@@ -64,6 +67,8 @@ print(f"Mean Recall: {mean_metrics[1]:.3f}")
 print(f"Mean F-Beta: {mean_metrics[2]:.3f}")
 # ########################
 
+print("Expected number of features:", rf_model.n_features_in_)
+
 # Train and save a model.
 # rf_model = train_model(X_train, y_train)
 
@@ -75,16 +80,3 @@ pickle.dump(encoder, open(encoder_path, 'wb'))
 
 lb_path = os.path.join(file_dir, '../model/lb.pkl')
 pickle.dump(lb, open(lb_path, 'wb'))
-
-"""
-# Proces the test data with the process_data function.
-X_test, y_test, _, _ = process_data(
-    test, categorical_features=cat_features, label="salary", training=False,
-    encoder=encoder, lb=lb
-)
-preds = inference(rf_model, X_test)
-
-print('precision: {}, recall: {}, fbeta: {}'.format(
-    *compute_model_metrics(y_test, preds)
-))
-"""
