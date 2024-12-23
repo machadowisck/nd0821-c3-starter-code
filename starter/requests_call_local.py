@@ -40,6 +40,36 @@ print('Response Headers:', response.headers)
 print('text:', response.text)
 print('more: ', response.reason)
 
+census = {"age": 45,
+        "workclass": "Private",
+        "fnlgt": 287927,
+        "education": "Doctorate",
+        "education-num": 20,
+        "marital_status": "Never-married",
+        "occupation": "Prof-specialty",
+        "relationship": "Not-in-family",
+        "race": "White",
+        "sex": "Male",
+        "capital-gain": 1410000,
+        "capital-loss": 0,
+        "hours-per-week": 50,
+        "native_country": "United-States"}
+
+
+print('#############################################')
+print('/ POST')
+headers = {'Content-Type': 'application/json'}
+#  response = requests.post(url, data=json.dumps(census), headers=headers)
+response = requests.post(url, json=census)
+
+print('status code:', response.status_code)
+# print('salary:', response.json())
+print("Request Headers:", response.request.headers)
+print("Request Body:", response.request.body)
+print('Response Headers:', response.headers)
+print('text:', response.text)
+print('more: ', response.reason)
+
 """
 def test_post2():
     data = [{

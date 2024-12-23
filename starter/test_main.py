@@ -49,8 +49,8 @@ def test_post_gt():
         "occupation": "Prof-specialty",
         "relationship": "Not-in-family",
         "race": "White",
-        "sex": "Female",
-        "capital-gain": 14100,
+        "sex": "Male",
+        "capital-gain": 141000,
         "capital-loss": 0,
         "hours-per-week": 50,
         "native_country": "United-States"}
