@@ -4,7 +4,7 @@ import os
 import pickle
 import pandas as pd
 from fastapi import FastAPI
-from fastapi.encoders import jsonable_encoder
+# from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel, Field, ConfigDict
 
 # from pydantic.alias_generators import to_snake, to_pascal
@@ -34,7 +34,7 @@ class Census(BaseModel):
     # Using the first row of census.csv as sample
     age: int = Field(None, example=40)
     workclass: str = Field(None, example='State-gov')
-    fnlgt: int = Field(None, example=88516)
+    # fnlgt: int = Field(None, example=88516)
     education: str = Field(None, example='Bachelors')
     education_num: int = Field(None, example=13)
     marital_status: str = Field(None,
@@ -59,13 +59,6 @@ async def home_page():
 
 @app.post("/")
 async def predict(data: Census, encoder=encoder, lb=lb):
-    # data_shape = pd.DataFrame.from_dict(data.__dict__)
-    # print('data size: {}'.format(data_shape.shape))
-    # data = {key.replace('_', '-'): [value] for key, value in data.__dict__.items()}
-    # data = pd.DataFrame.from_dict(data.__dict__)
-    # print('data size: {}'.format(data.shape))
-
-    # data = pd.DataFrame(jsonable_encoder(data))
     data = pd.DataFrame.from_dict(data.__dict__)
     keys = data.columns
     print("Inference feature Names:", keys)
@@ -89,8 +82,8 @@ async def predict(data: Census, encoder=encoder, lb=lb):
         lb=lb
     )
     print("Inference features:", X.shape)
-    X = X[:, :108]
-    print("Inference features:", X.shape)
+    # X = X[:, :108]
+    # print("Inference features:", X.shape)
 
     pred = inference(model, X)[0]
     return '<=50K' if pred == 0 else '>50K'

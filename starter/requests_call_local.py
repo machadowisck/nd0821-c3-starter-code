@@ -1,10 +1,10 @@
 import requests
-import json
+# import json
 
 url = 'http://127.0.0.1:8000'
 census = {"age": 30,
           "workclass": "State-gov",
-          "fnlgt": 141297,
+          # "fnlgt": 141297,
           "education": "Bachelors",
           "education-num": 13,
           "marital-status": "Married-civ-spouse",
@@ -40,20 +40,22 @@ print('Response Headers:', response.headers)
 print('text:', response.text)
 print('more: ', response.reason)
 
-census = {"age": 45,
-        "workclass": "Private",
-        "fnlgt": 287927,
-        "education": "Doctorate",
-        "education-num": 20,
-        "marital_status": "Never-married",
-        "occupation": "Prof-specialty",
-        "relationship": "Not-in-family",
-        "race": "White",
-        "sex": "Male",
-        "capital-gain": 1410000,
-        "capital-loss": 0,
-        "hours-per-week": 50,
-        "native_country": "United-States"}
+census = {
+    "age": 45,
+    "workclass": "Private",
+    # "fnlgt": 287927,
+    "education": "Doctorate",
+    "education-num": 20,
+    "marital_status": "Never-married",
+    "occupation": "Prof-specialty",
+    "relationship": "Not-in-family",
+    "race": "White",
+    "sex": "Male",
+    "capital-gain": 1410000,
+    "capital-loss": 0,
+    "hours-per-week": 50,
+    "native_country": "United-States"
+    }
 
 
 print('#############################################')
@@ -75,7 +77,7 @@ def test_post2():
     data = [{
         "age": 30,
         "workclass": "State-gov",
-        "fnlgt": 141297,
+        # "fnlgt": 141297,
         "education": "Bachelors",
         "education_num": 13,
         "marital_status": "Married-civ-spouse",

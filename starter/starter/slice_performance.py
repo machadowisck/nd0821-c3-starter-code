@@ -33,7 +33,10 @@ def performance(model, data, slice_feature, categorical_features=[]):
     logger.info('#######################################')
 
     X, y, _, _ = process_data(
-        data, categorical_features=categorical_features, label="salary", training=True
+        data,
+        categorical_features=categorical_features,
+        label="salary",
+        training=True
         )
     preds = inference(model, X)
 
@@ -42,7 +45,9 @@ def performance(model, data, slice_feature, categorical_features=[]):
 
         logger.info("{} = {}".format(slice_feature, str(value)))
         logger.info('data size:{}'.format(str(len(slice_index))))
-        logger.info('precision: {}, recall: {}, fbeta: {}'.format(*compute_model_metrics(y[slice_index], preds[slice_index])))
+        logger.info('precision: {}, recall: {}, fbeta: {}\
+                    '.format(*compute_model_metrics(y[slice_index],
+                                                    preds[slice_index])))
         logger.info('---------------------------------------')
 
 

@@ -13,9 +13,10 @@ def test_get_root():
 
 
 def test_post_le():
-    data = {"age": 39,
+    data = {
+        "age": 39,
         "workclass": "State-gov",
-        "fnlgt": 77516,
+        # "fnlgt": 77516,
         "education": "Bachelors",
         "education-num": 13,
         "marital_status": "Never-married",
@@ -26,7 +27,8 @@ def test_post_le():
         "capital-gain": 2174,
         "capital-loss": 0,
         "hours-per-week": 40,
-        "native_country": "United-States"}
+        "native_country": "United-States"
+        }
     r = TestClient(app).post("/", json=data)
     print('status code:', r.status_code)
     print("Request Headers:", r.request.headers)
@@ -40,20 +42,22 @@ def test_post_le():
 
 def test_post_gt():
     # 52,Self-emp-not-inc,209642,HS-grad,9,Married-civ-spouse,Exec-managerial,Husband,White,Male,0,0,45,United-States,>50K
-    data = {"age": 31,
+    data = {
+        "age": 49,
         "workclass": "Private",
-        "fnlgt": 45781,
-        "education": "Masters",
+        # "fnlgt": 287372,
+        "education": "Bachelors",
         "education-num": 14,
-        "marital_status": "Never-married",
+        "marital_status": "Married-civ-spouse",
         "occupation": "Prof-specialty",
-        "relationship": "Not-in-family",
+        "relationship": "Husband",
         "race": "White",
         "sex": "Male",
-        "capital-gain": 141000,
+        "capital-gain": 0,
         "capital-loss": 0,
-        "hours-per-week": 50,
-        "native_country": "United-States"}
+        "hours-per-week": 46,
+        "native_country": "England"
+        }
     r = TestClient(app).post("/", json=data)
     print('status code:', r.status_code)
     print("Request Headers:", r.request.headers)
@@ -61,5 +65,6 @@ def test_post_gt():
     print('Response Headers:', r.headers)
     print('text:', r.text)
     print('more: ', r.reason)
+    print('response json: ', r.json())
     assert r.status_code == 200
     assert r.json() == ">50K"

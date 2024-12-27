@@ -1,6 +1,14 @@
 import numpy as np
 import pandas as pd
-from sklearn.preprocessing import LabelBinarizer, OneHotEncoder
+from sklearn.preprocessing import (
+                                    LabelBinarizer,
+                                    OneHotEncoder,
+                                    # StandardScaler,
+                                  )
+# from sklearn.impute import SimpleImputer
+# from sklearn.decomposition import PCA
+# from sklearn.decomposition import TruncatedSVD
+# from sklearn.feature_selection import SelectKBest, chi2
 
 
 # Function to convert numeric columns to float
@@ -8,21 +16,9 @@ def convert_numeric_columns(arr):
     for col in arr.columns:
         try:
             arr[col] = pd.to_numeric(arr[col], errors='coerce')
-        except:
-            pass
-    '''for col in range(arr.shape[1]):  # Iterate over each column
-        try:
-            # Attempt to convert the entire column to int
-            arr[:, col] = arr[:, col].astype(int)
-        except ValueError:
-            # Skip non-numeric columns
-            pass
-        except pd.errors.InvalidIndexError:
-            # Skip non-numeric columns
-            try:
+        except Exception as e:
+            print('An Exception Occurred: ', e)
 
-            except:
-                pass'''
     return arr
 
 
@@ -38,18 +34,19 @@ def process_data(X,
     a label binarizer for the labels. This can be used in either training or
     inference/validation.
 
-    Note: depending on the type of model used, you may want to add in functionality that
-    scales the continuous data.
+    Note: depending on the type of model used, you may want to add in
+    functionality that scales the continuous data.
 
     Inputs
     ------
     X : pd.DataFrame
-        Dataframe containing the features and label. Columns in `categorical_features`
+        Dataframe containing the features and label. Columns in
+        `categorical_features`
     categorical_features: list[str]
         List containing the names of the categorical features (default=[])
     label : str
-        Name of the label column in `X`. If None, then an empty array will be returned
-        for y (default=None)
+        Name of the label column in `X`. If None, then an empty array will be
+        returned for y (default=None)
     training : bool
         Indicator if training mode or inference/validation mode.
     encoder : sklearn.preprocessing._encoders.OneHotEncoder
@@ -64,37 +61,53 @@ def process_data(X,
     y : np.array
         Processed labels if labeled=True, otherwise empty np.array.
     encoder : sklearn.preprocessing._encoders.OneHotEncoder
-        Trained OneHotEncoder if training is True, otherwise returns the encoder passed
-        in.
+        Trained OneHotEncoder if training is True, otherwise returns the
+        encoder passed in.
     lb : sklearn.preprocessing._label.LabelBinarizer
-        Trained LabelBinarizer if training is True, otherwise returns the binarizer
-        passed in.
+        Trained LabelBinarizer if training is True, otherwise returns the
+        binarizer passed in.
     """
-
     if label is not None:
         y = X[label]
         X = X.drop([label], axis=1)
     else:
-        y = np.array([])
+        # y = np.array([])
+        y = pd.DataFrame([0] * len(X))
 
-    # (np.array(list(loss.values())).astype(float)
     X_categorical = X[categorical_features].values
 
     X_continuous = X.drop(*[categorical_features], axis=1)
     X_continuous = convert_numeric_columns(X_continuous)
+    # scaler = StandardScaler()
+    # X_continuous = scaler.fit_transform(X_continuous)
 
     if training is True:
+        # pca = PCA(n_components=5, random_state=42)
+        # X_continuous = pca.fit_transform(X_continuous)
+        # tsvd = TruncatedSVD(n_components=5, random_state=42)
+        # X_continuous = tsvd.fit_transform(X_continuous)
         encoder = OneHotEncoder(sparse_output=False, handle_unknown="ignore")
         lb = LabelBinarizer()
         X_categorical = encoder.fit_transform(X_categorical)
         y = lb.fit_transform(y.values).ravel()
     else:
+        # pca = PCA(n_components=5, random_state=42)
+        # X_continuous = pca.fit_transform(X_continuous)
+        # tsvd = TruncatedSVD(n_components=5, random_state=42)
+        # X_continuous = tsvd.fit_transform(X_continuous)
+
+        # imputer = SimpleImputer(strategy='most_frequent')
+        # X_categorical = imputer.fit_transform(X_categorical)
+
+        # imputer = SimpleImputer(strategy='mean')
+        # X_continuous = imputer.fit_transform(X_continuous)
+
         X_categorical = encoder.transform(X_categorical)
         try:
             y = lb.transform(y.values).ravel()
         # Catch the case where y is None because we're doing inference.
-        except AttributeError:
-            pass
+        except AttributeError as ae:
+            print('An AttributeError occurred: ', ae)
 
     X = np.concatenate([X_continuous, X_categorical], axis=1)
     return X, y, encoder, lb

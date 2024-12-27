@@ -1,10 +1,10 @@
 import requests
-import json
+# import json
 
 url = 'https://nd0821-c3-machado.onrender.com/'
 census = {"age": 30,
           "workclass": "State-gov",
-          "fnlgt": 141297,
+          # "fnlgt": 141297,
           "education": "Bachelors",
           "education-num": 13,
           "marital-status": "Married-civ-spouse",
@@ -45,7 +45,7 @@ def test_post2():
     data = [{
         "age": 30,
         "workclass": "State-gov",
-        "fnlgt": 141297,
+        # "fnlgt": 141297,
         "education": "Bachelors",
         "education_num": 13,
         "marital_status": "Married-civ-spouse",

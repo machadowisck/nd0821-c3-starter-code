@@ -39,7 +39,11 @@ def test_compute_model_metrics():
     precision, recall, fbeta = compute_model_metrics(y, preds)
     # Assert that the metrics are close to the expected value:
     # precision = 1.0, recall = 0.5, fbeta = 0.6667
-    assert abs(precision - 1) < 0.01 and abs(recall - 0.5) < 0.01 and abs(fbeta - 0.67) < 0.01
+    assert all([
+        abs(precision - 1) < 0.01,
+        abs(recall - 0.5) < 0.01,
+        abs(fbeta - 0.67) < 0.01
+    ])
 
 
 def test_inference():
@@ -55,3 +59,11 @@ def test_inference():
 
     result = inference(clf, [[0, 0], [0, 1]])
     assert list(result) == [0, 1]
+
+
+def test_local_model_inference_le():
+    pass
+
+
+def test_local_model_inference_gt():
+    pass
