@@ -33,14 +33,14 @@ jobs:
         # stop the build if there are Python syntax errors or undefined names
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+        flake8 . --count --exit-zero --max-complexity=16 --max-line-length=127 --statistics
     - name: train_model
       run: |
           python starter/starter/train_model.py --train_method=static        
     - name: Test with pytest
       run: |
-        python -m pytest starter/starter/ml/
-        python -m pytest starter/test_main.py
+        python -m pytest starter/starter/ml/ -vv 
+        python -m pytest starter/test_main.py -vv 
   deploy:
     needs: build
 

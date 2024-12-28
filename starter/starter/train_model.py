@@ -105,7 +105,7 @@ if __name__ == '__main__':
     parser.add_argument(
         '--train_method',
         choices=['static', 'grid'],
-        required=True,
+        default='static',
         help="Choose between static_train and grid_train"
     )
     parser.add_argument(
