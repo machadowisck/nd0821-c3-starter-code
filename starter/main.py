@@ -2,8 +2,9 @@
 
 import os
 import pickle
+from typing import Any
 import pandas as pd
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
 # from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel, Field, ConfigDict
 
@@ -12,7 +13,10 @@ from starter.starter.ml.data import process_data
 from starter.starter.ml.model import inference
 
 
-app = FastAPI()
+app = FastAPI(
+    title="Machadowisck FastAPI App",
+    description="This is my FastAPI app deployed on Render.",
+    version="1.0.0")
 file_dir = os.path.dirname(__file__)
 model_path = os.path.join(file_dir, 'model/rf_model.pkl')
 encoder_path = os.path.join(file_dir, 'model/encoder.pkl')
@@ -20,6 +24,12 @@ lb_path = os.path.join(file_dir, 'model/lb.pkl')
 model = pickle.load(open(model_path, 'rb'))
 encoder = pickle.load(open(encoder_path, 'rb'))
 lb = pickle.load(open(lb_path, 'rb'))
+
+def get_encoder():
+    return encoder
+
+def get_lb():
+    return lb
 
 
 def field_alias(string: str):
@@ -48,8 +58,16 @@ class Census(BaseModel):
     hours_per_week: int = Field(None, example=40)
     native_country: str = Field(None, example='Peru')
 
-    model_config = ConfigDict(alias_generator=field_title,
+    '''model_config = ConfigDict(alias_generator=field_title,
                               populate_by_name=True,)
+                              '''
+    class Config:
+        allow_population_by_field_name = True
+        alias_generator = field_title
+        @staticmethod
+        def schema_extra(schema: dict[str, Any], model: type['Census']) -> None:
+            for prop in schema.get('properties', {}).values():
+                prop.pop('title', None)    
 
 
 @app.get("/")
@@ -58,7 +76,7 @@ async def home_page():
 
 
 @app.post("/")
-async def predict(data: Census, encoder=encoder, lb=lb):
+async def predict(data: Census, encoder=Depends(get_encoder), lb=Depends(get_lb)):
     data = pd.DataFrame.from_dict(data.__dict__)
     keys = data.columns
     print("Inference feature Names:", keys)

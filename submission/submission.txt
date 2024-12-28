@@ -1,0 +1,13 @@
+Repository Link: https://github.com/machadowisck/nd0821-c3-starter-code
+
+Submitted files: 
+- slice_output.txt
+- model_card.md
+- submission/continuous_deloyment.png
+- submission/continuous_integration.png
+- submission/continuous_integration_tests.png
+- submission/example.png
+- submission/live_post.png
+- submission/render_deploy.png
+- submission/screenshot live_get.png
+
