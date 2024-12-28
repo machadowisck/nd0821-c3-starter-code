@@ -117,7 +117,7 @@ if __name__ == '__main__':
 
     X, y, encoder, lb = process_data(
         train, categorical_features=cat_features, label='salary', training=True
-        # X_train_, categorical_features=cat_features, label=None, training=True
+        # X_train_,categorical_features=cat_features,label=None,training=True
     )
     print("Training features(shape):", X.shape)
 

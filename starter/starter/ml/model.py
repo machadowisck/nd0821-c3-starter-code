@@ -159,10 +159,13 @@ def train_model(X_train, y_train):
     rf_model = RandomForestClassifier(random_state=42,
                                       n_jobs=-1,
                                       class_weight=class_weight_dict,
-                                      # class_weight='balanced_subsample',
-                                      max_depth=28,
+                                      max_depth=56,
                                       n_estimators=546,
-                                      max_features=0.55)
+                                      max_features=0.85,
+                                      max_samples=0.9,
+                                      min_samples_leaf=0.01,
+                                      min_samples_split=2,
+                                      warm_start=False)
     rf_model.fit(X_train, y_train)
     print(" ")
     print("Model parameters: ", rf_model.get_params())
